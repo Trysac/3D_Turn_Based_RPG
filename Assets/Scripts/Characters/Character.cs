@@ -26,4 +26,6 @@ public class Character : MonoBehaviour
     [SerializeField] GameObject healParticlePrefab;
 
     private Vector3 standingPosition;
+
+    public int MaxHP { get => maxHP; set => maxHP = value; }
 }
