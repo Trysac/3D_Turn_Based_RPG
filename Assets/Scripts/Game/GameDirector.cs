@@ -384,7 +384,7 @@ namespace TurnBasedRpg.Game
             MenuList menu = hud.OverlayMenu;
             Entry(menu, "Music", $"{settings.MusicPercent}%", true, () => ChangeSetting(0, 1), "Music volume.", d => ChangeSetting(0, d), quiet: true);
             Entry(menu, "Effects", $"{settings.EffectsPercent}%", true, () => ChangeSetting(1, 1), "Sound effect volume.", d => ChangeSetting(1, d), quiet: true);
-            Entry(menu, "Battle speed", $"{settings.Speed:0.#}x", true, () => ChangeSetting(2, 1), "How fast battle animations play.", d => ChangeSetting(2, d), quiet: true);
+            Entry(menu, "Battle speed", SpeedLabel(), true, () => ChangeSetting(2, 1), "How fast battle animations play.", d => ChangeSetting(2, d), quiet: true);
             Entry(menu, "Screen shake", settings.Shake ? "On" : "Off", true, () => ChangeSetting(3, 1), "Camera shake on heavy hits.", d => ChangeSetting(3, d), quiet: true);
             Entry(menu, "Back", null, true, CloseSettings, null);
             menu.FocusFirstEnabled();
@@ -405,7 +405,7 @@ namespace TurnBasedRpg.Game
                     break;
                 case 2:
                     settings.SpeedIndex = (settings.SpeedIndex + delta + Settings.Speeds.Length) % Settings.Speeds.Length;
-                    menu.SetDetail(2, $"{settings.Speed:0.#}x");
+                    menu.SetDetail(2, SpeedLabel());
                     break;
                 case 3:
                     settings.Shake = !settings.Shake;
@@ -416,6 +416,8 @@ namespace TurnBasedRpg.Game
             ApplySettings();
             sound.Play(art.Move);
         }
+
+        string SpeedLabel() => settings.Speed.ToString("0.#", System.Globalization.CultureInfo.InvariantCulture) + "x";
 
         /// <summary>Volume steps of 10%, wrapping from 100% back to 0% when cycling with confirm.</summary>
         static int Step(int value, int delta)
