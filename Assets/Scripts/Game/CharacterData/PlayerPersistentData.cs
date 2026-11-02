@@ -17,12 +17,21 @@ namespace TurnBasedRpg.Game
         }
 #endif
 
-        /// <summary>Restores every party member to full health.</summary>
+        /// <summary>Restores every party member to full health; empty slots are left alone.</summary>
         public void ResetCharacters()
         {
+            if (characters == null)
+            {
+                return;
+            }
             foreach (PlayerPersistentCharacter character in characters)
             {
-                character.Health = character.CharacterPrefab.GetComponent<Character>().MaxHP;
+                Character fighter = character?.CharacterPrefab != null ? character.CharacterPrefab.GetComponent<Character>() : null;
+                if (fighter == null)
+                {
+                    continue;
+                }
+                character.Health = fighter.MaxHP;
                 character.IsDead = false;
             }
         }
