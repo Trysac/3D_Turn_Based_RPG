@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60e59e6d00ffed445a5e70aed7985842, type: 3}
+  m_Name: GameArt
+  m_EditorClassIdentifier: TurnBasedRpg.Game::TurnBasedRpg.Game.GameArt
+  Lit: {fileID: 2100000, guid: 69d7f4b3fdfe08b4f9d7b73cc86f3141, type: 2}
+  Ring: {fileID: 2100000, guid: 92bfa4b4b7573a44ca1a32beb6397168, type: 2}
+  ParticleAdditive: {fileID: 2100000, guid: bc7d3627c15653e4f8e5e199cf94eddb, type: 2}
+  ParticleAlpha: {fileID: 2100000, guid: 48b347de1e5bb3647b86ef5dfe7d4731, type: 2}
+  Cube: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  Sphere: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  Cylinder: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  Capsule: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  Quad: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  RoadTheme: {fileID: 8300000, guid: c49c9ff40ccb66e4883ff83aa50830f8, type: 3}
+  BattleTheme: {fileID: 8300000, guid: 2e5a8428f98d9c44f833ada62e3d10a6, type: 3}
+  BossTheme: {fileID: 8300000, guid: fa24800703d39fe43baa84e499519ab9, type: 3}
+  Move: {fileID: 8300000, guid: 43ae178319721094780a418d20a6ed5b, type: 3}
+  Confirm: {fileID: 8300000, guid: 3a4a6474fff6f584fad2990e83425767, type: 3}
+  Cancel: {fileID: 8300000, guid: 58a96ecb180a9be4b90ee00ade219bab, type: 3}
+  Slash: {fileID: 8300000, guid: 2e9cb8e2df2188c41ac7477cbde35d3e, type: 3}
+  Critical: {fileID: 8300000, guid: ab7fcb9645db68d48a1c53a25caf10a9, type: 3}
+  Fire: {fileID: 8300000, guid: 91db97a6c50e493409ed97ad1a345d43, type: 3}
+  Heal: {fileID: 8300000, guid: 1b9b773e2d485ac43a10ff83d81cdc81, type: 3}
+  Buff: {fileID: 8300000, guid: 6b5b1b0c980f3064c81f1b53b8d919b4, type: 3}
+  Curse: {fileID: 8300000, guid: 1d87d59ed51146943b473713fd44ac48, type: 3}
+  Stun: {fileID: 8300000, guid: 74ab7c9609521e342854a70dc7bf5afd, type: 3}
+  Guard: {fileID: 8300000, guid: 4493a9e0827da86479c9d77465efd782, type: 3}
+  Item: {fileID: 8300000, guid: d8697aa35b717034295d24de09e4c520, type: 3}
+  UnitDown: {fileID: 8300000, guid: b6a89d4d4db0afb46b6f34a7361bc43d, type: 3}
+  YourTurn: {fileID: 8300000, guid: 74fb9e5ca156dd546b7cd3f1bb86e2e2, type: 3}
+  LevelUp: {fileID: 8300000, guid: 85af107f65f54fc4786c9d452bdd2ff1, type: 3}
+  Victory: {fileID: 8300000, guid: 4c739f121067cb5468181170f03b26f7, type: 3}
+  Defeat: {fileID: 8300000, guid: bee1cc338c2ea4741950cfdab3be1532, type: 3}
+  Roar: {fileID: 8300000, guid: 2e0cbe827d40e324aa7e76a1de0dce42, type: 3}

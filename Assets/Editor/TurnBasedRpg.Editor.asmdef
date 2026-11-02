@@ -1,0 +1,19 @@
+{
+    "name": "TurnBasedRpg.Editor",
+    "rootNamespace": "TurnBasedRpg.EditorTools",
+    "references": [
+        "TurnBasedRpg.Core",
+        "TurnBasedRpg.Game"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
