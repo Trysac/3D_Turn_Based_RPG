@@ -323,7 +323,8 @@ namespace TurnBasedRpg.Core
             {
                 if (rng.Chance(skill.StatusChance))
                 {
-                    target.Apply(skill.Status.Value, skill.StatusTurns);
+                    // A status cast on yourself would otherwise lose a turn at the end of this one.
+                    target.Apply(skill.Status.Value, target == actor ? skill.StatusTurns + 1 : skill.StatusTurns);
                     hit.StatusApplied = skill.Status.Value;
                 }
                 else

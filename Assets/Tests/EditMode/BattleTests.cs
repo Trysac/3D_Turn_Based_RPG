@@ -384,5 +384,18 @@ namespace TurnBasedRpg.Tests
             battle.BeginTurn();
             Assert.That(battle.CanUse(enemy, ItemId.Potion), Is.False);
         }
+
+        [Test]
+        public void ASelfBuffLastsItsFullTurnsForTheCaster()
+        {
+            var knight = new Combatant(Catalog.Knight, Team.Heroes, 0, 1);
+            var mage = new Combatant(Catalog.Mage, Team.Heroes, 1, 1);
+            var dummy = TestUnits.Enemy(TestUnits.Def("dummy", hp: 9999, attack: 1, speed: 1));
+            var battle = TestUnits.Battle(new[] { knight, mage }, new[] { dummy });
+            TestUnits.AdvanceTo(battle, knight);
+            battle.Execute(BattleAction.UseSkill(Catalog.WarCry));
+            Assert.That(knight.Find(StatusKind.Strength)?.Turns, Is.EqualTo(Catalog.WarCry.StatusTurns),
+                "the turn the buff is cast on must not count against the caster");
+        }
     }
 }
