@@ -401,7 +401,7 @@
     white-space: nowrap;
 }
 
-.entry__detail {
+.entry--disabled .entry__detail {
     color: #555a66;
 }
 
