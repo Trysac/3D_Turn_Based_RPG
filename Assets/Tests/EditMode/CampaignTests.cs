@@ -324,10 +324,20 @@ namespace TurnBasedRpg.Tests
         [Test]
         public void OutOfRangeValues_AreClamped()
         {
-            string text = SaveCodec.WriteRun(Run.New(1)).Replace("stage=0", "stage=99").Replace("hero0=knight,1,0,120,30", "hero0=knight,1,0,9999,30");
+            string text = SaveCodec.WriteRun(Run.New(1)).Replace("hero0=knight,1,0,120,30", "hero0=knight,1,0,9999,30");
             Run run = SaveCodec.ReadRun(text);
-            Assert.That(run.Stage, Is.EqualTo(Campaign.Encounters.Count));
             Assert.That(run.Party[0].Hp, Is.EqualTo(120));
+        }
+
+        [TestCase("stage=0", "stage=5")]
+        [TestCase("stage=0", "stage=99")]
+        [TestCase("hero0=knight", "hero0=slime")]
+        [TestCase("hero1=mage", "hero1=knight")]
+        public void SavesTheGameCouldNotHaveWritten_ReadAsNoRun(string from, string to)
+        {
+            string text = SaveCodec.WriteRun(Run.New(1)).Replace(from, to);
+            Assert.That(text, Does.Contain(to));
+            Assert.That(SaveCodec.ReadRun(text), Is.Null);
         }
 
         [Test]

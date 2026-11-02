@@ -88,7 +88,7 @@ started with `-screenshot <folder>`.
 
 - **Rules without the engine.** Turn order, damage, statuses, items, cooldowns, the AI,
   experience, the campaign and the save format live in `Assets/Scripts/Core`, a plain C#
-  assembly with no Unity references, covered by 60 EditMode tests. A seeded xorshift generator
+  assembly with no Unity references, covered by 65 EditMode tests. A seeded xorshift generator
   makes every battle reproducible, so tests can play whole campaigns: a soak test lets the AI
   run the party through all five battles on three seeds, and another checks that the boss beats
   a level-1 party.

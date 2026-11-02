@@ -64,7 +64,7 @@ namespace TurnBasedRpg.Core
             for (int i = 0; values.TryGetValue("hero" + i, out string hero); i++)
             {
                 string[] parts = hero.Split(',');
-                UnitDef def = Catalog.Units.FirstOrDefault(u => parts.Length == 5 && u.Id == parts[0]);
+                UnitDef def = i < Catalog.Party.Count && parts.Length == 5 && Catalog.Party[i].Id == parts[0] ? Catalog.Party[i] : null;
                 if (def == null || !TryNumber(parts[1], out int level) || !TryNumber(parts[2], out int xp) ||
                     !TryNumber(parts[3], out int hp) || !TryNumber(parts[4], out int mp))
                 {
@@ -78,6 +78,11 @@ namespace TurnBasedRpg.Core
             }
 
             var run = new Run(seed, party, inventory);
+            if (stage < 0 || stage >= Campaign.Encounters.Count)
+            {
+                // The game deletes the run once the campaign is over, so it never saves one past the end.
+                return null;
+            }
             run.Restore(stage, attempt, turns, camp == 1);
             return run;
         }
