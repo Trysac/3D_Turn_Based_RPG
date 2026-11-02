@@ -3,7 +3,6 @@
     "rootNamespace": "TurnBasedRpg.Tests",
     "references": [
         "TurnBasedRpg.Core",
-        "TurnBasedRpg.Game",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"
     ],
