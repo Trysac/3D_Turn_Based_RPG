@@ -4,6 +4,8 @@
     "references": [
         "TurnBasedRpg.Core",
         "TurnBasedRpg.Game",
+        "Unity.InputSystem",
+        "Unity.InputSystem.TestFramework",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"
     ],

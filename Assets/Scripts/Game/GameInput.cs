@@ -25,6 +25,14 @@ namespace TurnBasedRpg.Game
         /// <summary>One step of menu movement this frame (with key repeat), or zero.</summary>
         public Vector2Int Navigate()
         {
+            // A tap can press and release within one frame, so presses are read as events first.
+            Vector2Int tapped = Tapped();
+            if (tapped != Vector2Int.zero)
+            {
+                heldDirection = tapped;
+                repeatTimer = RepeatDelay;
+                return tapped;
+            }
             Vector2Int direction = Held();
             if (direction == Vector2Int.zero)
             {
@@ -42,6 +50,25 @@ namespace TurnBasedRpg.Game
             {
                 repeatTimer = RepeatRate;
                 return direction;
+            }
+            return Vector2Int.zero;
+        }
+
+        static Vector2Int Tapped()
+        {
+            if (Keys != null)
+            {
+                if (Keys.upArrowKey.wasPressedThisFrame || Keys.wKey.wasPressedThisFrame) return Vector2Int.up;
+                if (Keys.downArrowKey.wasPressedThisFrame || Keys.sKey.wasPressedThisFrame) return Vector2Int.down;
+                if (Keys.leftArrowKey.wasPressedThisFrame || Keys.aKey.wasPressedThisFrame) return Vector2Int.left;
+                if (Keys.rightArrowKey.wasPressedThisFrame || Keys.dKey.wasPressedThisFrame) return Vector2Int.right;
+            }
+            if (Pad != null)
+            {
+                if (Pad.dpad.up.wasPressedThisFrame) return Vector2Int.up;
+                if (Pad.dpad.down.wasPressedThisFrame) return Vector2Int.down;
+                if (Pad.dpad.left.wasPressedThisFrame) return Vector2Int.left;
+                if (Pad.dpad.right.wasPressedThisFrame) return Vector2Int.right;
             }
             return Vector2Int.zero;
         }
