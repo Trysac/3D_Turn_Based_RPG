@@ -1,0 +1,613 @@
+/*
+ * Embervale HUD: ink-blue panels with ember-orange edges.
+ * Designed at 1280x720 reference pixels; the panel settings scale it to the screen.
+ */
+
+/* Labels from the default theme carry padding; the HUD sets its own spacing. */
+.unity-label {
+    padding: 0;
+    margin: 0;
+}
+
+:root {
+    --ink: #0b0f1a;
+    --panel: rgba(14, 19, 32, 0.9);
+    --panel-light: rgba(32, 40, 62, 0.96);
+    --ember: #ff9a3c;
+    --ember-dark: #8a4a1c;
+    --gold: #ffd36b;
+    --text: #f1eadb;
+    --muted: #a3a9b6;
+    --hp: #5fd16b;
+    --hp-low: #ff5a48;
+    --mp: #5aa8ff;
+    --enemy: #ff6a4a;
+
+    color: var(--text);
+    font-size: 16px;
+}
+
+.hud,
+.layer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* ---- Bars ---- */
+
+.bar {
+    height: 8px;
+    flex-grow: 1;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.bar__fill {
+    height: 100%;
+    width: 100%;
+    border-radius: 3px;
+    background-color: var(--hp);
+    transition-property: width;
+    transition-duration: 0.25s;
+}
+
+.bar--mp .bar__fill {
+    background-color: var(--mp);
+}
+
+.bar--enemy .bar__fill {
+    background-color: var(--enemy);
+}
+
+.bar__fill--low {
+    background-color: var(--hp-low);
+}
+
+/* ---- Name plates over fighters ---- */
+
+.plate {
+    position: absolute;
+    width: 118px;
+    padding: 3px 6px 4px 6px;
+    background-color: rgba(11, 15, 26, 0.72);
+    border-radius: 6px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.plate--boss {
+    width: 170px;
+}
+
+.plate--target {
+    border-color: var(--gold);
+    border-width: 2px;
+    background-color: rgba(60, 40, 10, 0.85);
+}
+
+.plate--down {
+    opacity: 0.45;
+}
+
+.plate__name {
+    font-size: 12px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-bottom: 2px;
+}
+
+.plate__line {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 1px;
+}
+
+.plate__hp,
+.plate__status {
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.plate__status {
+    color: var(--gold);
+}
+
+.plate--hero {
+    display: none;
+}
+
+/* ---- Floating numbers ---- */
+
+.floater {
+    position: absolute;
+    font-size: 26px;
+    -unity-font-style: bold;
+    -unity-text-outline-width: 1.5px;
+    -unity-text-outline-color: rgba(0, 0, 0, 0.9);
+    white-space: nowrap;
+}
+
+.floater--damage {
+    color: #ffffff;
+}
+
+.floater--crit {
+    color: var(--gold);
+    font-size: 34px;
+}
+
+.floater--heal {
+    color: #8dff8a;
+}
+
+.floater--mp {
+    color: #8ec5ff;
+}
+
+.floater--status {
+    font-size: 17px;
+    color: #ffd0f0;
+}
+
+.floater--poison {
+    color: #b6ff6a;
+}
+
+/* ---- Top bar ---- */
+
+.top {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    align-items: center;
+}
+
+.top__stage {
+    font-size: 15px;
+    color: var(--muted);
+    -unity-font-style: bold;
+    letter-spacing: 2px;
+}
+
+.top__row {
+    flex-direction: row;
+    align-items: center;
+    margin-top: 4px;
+}
+
+.top__round {
+    font-size: 13px;
+    color: var(--ember);
+    -unity-font-style: bold;
+    margin-right: 8px;
+}
+
+.order {
+    flex-direction: row;
+}
+
+.chip {
+    font-size: 12px;
+    padding: 2px 8px;
+    margin: 0 2px;
+    border-radius: 10px;
+    background-color: var(--panel);
+    border-width: 1px;
+    white-space: nowrap;
+}
+
+.chip--hero {
+    border-color: #4e8cff;
+}
+
+.chip--enemy {
+    border-color: #c8503c;
+}
+
+.chip--current {
+    background-color: var(--ember);
+    color: var(--ink);
+    -unity-font-style: bold;
+}
+
+.corner {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    flex-direction: row;
+}
+
+.pill {
+    font-size: 13px;
+    -unity-font-style: bold;
+    height: 30px;
+    padding: 0 12px;
+    margin: 0 0 0 6px;
+    border-radius: 15px;
+    background-color: var(--panel);
+    border-color: rgba(255, 255, 255, 0.15);
+    border-width: 1px;
+    color: var(--text);
+}
+
+.pill:hover {
+    border-color: var(--ember);
+}
+
+.pill--on {
+    background-color: var(--ember);
+    color: var(--ink);
+}
+
+.pill--square {
+    width: 34px;
+    padding: 0;
+}
+
+/* ---- Party panel ---- */
+
+.party {
+    position: absolute;
+    left: 14px;
+    bottom: 14px;
+    width: 380px;
+    padding: 8px 10px;
+    background-color: var(--panel);
+    border-radius: 8px;
+    border-left-width: 3px;
+    border-color: var(--ember-dark);
+}
+
+.member {
+    padding: 4px 6px;
+    border-radius: 6px;
+    margin: 1px 0;
+}
+
+.member--current {
+    background-color: rgba(255, 154, 60, 0.18);
+}
+
+.member--down {
+    opacity: 0.5;
+}
+
+.member__head {
+    flex-direction: row;
+    align-items: center;
+}
+
+.member__name {
+    font-size: 15px;
+    -unity-font-style: bold;
+    width: 64px;
+}
+
+.member__level {
+    font-size: 12px;
+    color: var(--muted);
+    width: 110px;
+}
+
+.member__status {
+    font-size: 12px;
+    color: var(--gold);
+    flex-grow: 1;
+    -unity-text-align: middle-right;
+}
+
+.member__line {
+    flex-direction: row;
+    align-items: center;
+    height: 16px;
+}
+
+.member__tag {
+    font-size: 11px;
+    color: var(--muted);
+    width: 24px;
+}
+
+.member__value {
+    font-size: 12px;
+    width: 70px;
+    -unity-text-align: middle-right;
+}
+
+/* ---- Command menu ---- */
+
+.commands {
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    width: 330px;
+    padding: 8px 10px 10px 10px;
+    background-color: var(--panel);
+    border-radius: 8px;
+    border-right-width: 3px;
+    border-color: var(--ember-dark);
+}
+
+.commands__title {
+    font-size: 15px;
+    -unity-font-style: bold;
+    color: var(--ember);
+    margin-bottom: 4px;
+}
+
+.commands__description {
+    font-size: 12px;
+    color: var(--muted);
+    white-space: normal;
+    height: 32px;
+    margin-top: 4px;
+}
+
+.menu {
+    flex-direction: column;
+}
+
+.entry {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    -unity-text-align: middle-left;
+    font-size: 15px;
+    height: 30px;
+    margin: 1px 0;
+    padding: 0 10px;
+    border-radius: 5px;
+    border-width: 1px;
+    border-color: rgba(0, 0, 0, 0);
+    background-color: rgba(255, 255, 255, 0.04);
+    color: var(--text);
+}
+
+.entry__label {
+    flex-grow: 1;
+    -unity-text-align: middle-left;
+    white-space: nowrap;
+}
+
+.entry__detail {
+    font-size: 12px;
+    color: var(--muted);
+    -unity-text-align: middle-right;
+}
+
+.entry--focused {
+    background-color: rgba(255, 154, 60, 0.22);
+    border-color: var(--ember);
+}
+
+.entry--focused .entry__detail {
+    color: var(--text);
+}
+
+.entry--disabled {
+    color: #6b7180;
+}
+
+.entry--disabled .entry__label {
+    flex-grow: 1;
+    -unity-text-align: middle-left;
+    white-space: nowrap;
+}
+
+.entry__detail {
+    color: #555a66;
+}
+
+.hint {
+    position: absolute;
+    bottom: 16px;
+    left: 410px;
+    right: 360px;
+    font-size: 13px;
+    color: var(--text);
+    -unity-text-align: middle-center;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgba(0, 0, 0, 0.8);
+}
+
+/* ---- Banners ---- */
+
+.banner {
+    position: absolute;
+    top: 92px;
+    left: 0;
+    right: 0;
+    -unity-text-align: middle-center;
+    font-size: 30px;
+    -unity-font-style: bold;
+    color: var(--text);
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgba(0, 0, 0, 0.8);
+    transition-property: opacity;
+    transition-duration: 0.2s;
+}
+
+.banner--big {
+    top: 230px;
+    font-size: 64px;
+    color: var(--gold);
+}
+
+.banner--danger {
+    top: 230px;
+    font-size: 56px;
+    color: var(--enemy);
+}
+
+.subbanner {
+    position: absolute;
+    top: 132px;
+    left: 0;
+    right: 0;
+    -unity-text-align: middle-center;
+    font-size: 15px;
+    color: var(--muted);
+    transition-property: opacity;
+    transition-duration: 0.2s;
+}
+
+/* ---- Cards (title, map, camp, results, pause, settings, ending) ---- */
+
+.overlay {
+    background-color: rgba(5, 7, 12, 0.55);
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    width: 560px;
+    padding: 22px 28px 24px 28px;
+    background-color: var(--panel);
+    border-radius: 12px;
+    border-top-width: 3px;
+    border-color: var(--ember);
+    align-items: stretch;
+}
+
+.card--title {
+    width: 520px;
+    background-color: rgba(14, 19, 32, 0.82);
+}
+
+.card--wide {
+    width: 820px;
+}
+
+.card__heading {
+    font-size: 34px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    color: var(--gold);
+}
+
+.card--title .card__heading {
+    font-size: 56px;
+    letter-spacing: 4px;
+}
+
+.card__sub {
+    font-size: 15px;
+    color: var(--muted);
+    -unity-text-align: middle-center;
+    margin-top: 2px;
+    white-space: normal;
+}
+
+.card__body {
+    font-size: 15px;
+    -unity-text-align: middle-center;
+    white-space: normal;
+    margin-top: 12px;
+}
+
+.card__extra {
+    margin-top: 10px;
+}
+
+.menu--card {
+    margin-top: 14px;
+}
+
+.menu--card .entry {
+    height: 34px;
+    font-size: 16px;
+}
+
+.line {
+    font-size: 14px;
+    white-space: normal;
+    -unity-text-align: middle-center;
+    margin: 2px 0;
+}
+
+.line--muted {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.line--gold {
+    color: var(--gold);
+    -unity-font-style: bold;
+}
+
+/* ---- Campaign path on the map ---- */
+
+.path {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    margin: 8px 0 10px 0;
+}
+
+.node {
+    width: 112px;
+    align-items: center;
+}
+
+.node__dot {
+    width: 38px;
+    height: 38px;
+    border-radius: 19px;
+    -unity-text-align: middle-center;
+    font-size: 17px;
+    -unity-font-style: bold;
+    background-color: var(--panel-light);
+    border-width: 2px;
+    border-color: #4a5268;
+    color: var(--muted);
+}
+
+.node__name {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    -unity-text-align: middle-center;
+}
+
+.node--done .node__dot {
+    background-color: #2c5a34;
+    border-color: var(--hp);
+    color: var(--text);
+}
+
+.node--current .node__dot {
+    background-color: var(--ember);
+    border-color: var(--gold);
+    color: var(--ink);
+}
+
+.node--current .node__name {
+    color: var(--text);
+    -unity-font-style: bold;
+}
+
+.node--boss .node__dot {
+    border-color: var(--enemy);
+}
+
+.path__link {
+    width: 30px;
+    height: 3px;
+    margin-top: 18px;
+    background-color: #4a5268;
+}
+
+.path__link--done {
+    background-color: var(--hp);
+}
+
+.banner--enemy {
+    color: #ffb09a;
+}

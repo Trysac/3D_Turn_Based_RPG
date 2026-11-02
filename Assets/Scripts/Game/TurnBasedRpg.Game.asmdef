@@ -1,7 +1,10 @@
 {
     "name": "TurnBasedRpg.Game",
     "rootNamespace": "TurnBasedRpg.Game",
-    "references": [],
+    "references": [
+        "TurnBasedRpg.Core",
+        "Unity.InputSystem"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
