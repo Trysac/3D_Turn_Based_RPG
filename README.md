@@ -12,6 +12,16 @@ status effects, an enemy AI, levels between battles and a saved campaign.
 | ![Choosing one of the mage's skills](docs/screenshots/command.png) | ![The Cinder King and his imps](docs/screenshots/boss.png) |
 | ![Camp: one reward between battles](docs/screenshots/camp.png) | ![Victory screen](docs/screenshots/victory.png) |
 
+## Play it
+
+- **In your browser:** [trysac.github.io/3D_Turn_Based_RPG](https://trysac.github.io/3D_Turn_Based_RPG/)
+- **On itch.io:** [trysac.itch.io/embervale](https://trysac.itch.io/embervale)
+- **Get the code:** fork this repository, or clone it:
+
+  ```bash
+  git clone https://github.com/Trysac/3D_Turn_Based_RPG.git
+  ```
+
 ## Run it
 
 1. Install **Unity 6000.3.27f1 (Unity 6 LTS)** with Unity Hub (add the Windows or Web build
