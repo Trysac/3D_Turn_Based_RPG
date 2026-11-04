@@ -13,6 +13,8 @@ namespace TurnBasedRpg.Game
     /// Without the -screenshot argument nothing is created, so normal runs and WebGL builds are
     /// unaffected. In the editor (ProjectBuilder.CaptureScreenshots) the camera and the UI are
     /// rendered off screen at 1280x720 and blended, so no window is needed.
+    /// Adding <c>-frames N [-fps F]</c> saves N numbered frames per scenario at a fixed timestep
+    /// of 1/F seconds instead of one still (the README gameplay GIF uses <c>-scenario gameplay</c>).
     /// </summary>
     public sealed class ScreenshotScenarios : MonoBehaviour
     {
@@ -22,6 +24,8 @@ namespace TurnBasedRpg.Game
 
         string folder;
         string[] scenarios;
+        int frames;
+        int fps = 15;
         RenderTexture sceneTarget;
         RenderTexture uiTarget;
 
@@ -36,6 +40,11 @@ namespace TurnBasedRpg.Game
             var host = new GameObject(nameof(ScreenshotScenarios)).AddComponent<ScreenshotScenarios>();
             host.folder = target;
             host.scenarios = (Argument("-scenario") ?? DefaultScenarios).Split(',');
+            int.TryParse(Argument("-frames"), out host.frames);
+            if (int.TryParse(Argument("-fps"), out int fps) && fps > 0)
+            {
+                host.fps = fps;
+            }
         }
 
         IEnumerator Start()
@@ -52,6 +61,11 @@ namespace TurnBasedRpg.Game
             {
                 string scenario = raw.Trim();
                 yield return Stage(director, scenario);
+                if (frames > 0)
+                {
+                    yield return CaptureSequence(director, scenario);
+                    continue;
+                }
                 Texture2D shot;
                 if (Application.isEditor)
                 {
@@ -72,6 +86,40 @@ namespace TurnBasedRpg.Game
 #else
             Application.Quit();
 #endif
+        }
+
+        const float GameplaySpeed = 1.6f;
+
+        /// <summary>
+        /// Lets auto-battle play and saves one frame every 1/fps seconds of game time, whatever
+        /// the real frame rate is.
+        /// </summary>
+        IEnumerator CaptureSequence(GameDirector director, string scenario)
+        {
+            Time.captureFramerate = fps;
+            for (int i = 0; i < frames; i++)
+            {
+                Texture2D shot;
+                if (Application.isEditor)
+                {
+                    yield return null;
+                    shot = CaptureOffscreen();
+                }
+                else
+                {
+                    yield return new WaitForEndOfFrame();
+                    shot = ScreenCapture.CaptureScreenshotAsTexture();
+                }
+                File.WriteAllBytes(Path.Combine(folder, $"{scenario}_{i:D4}.png"), shot.EncodeToPNG());
+                Destroy(shot);
+            }
+            Time.captureFramerate = 0;
+            if (director.AutoBattle)
+            {
+                director.ToggleAuto();
+            }
+            director.SpeedOverride = 0f;
+            Debug.Log($"Saved {frames} frames of {scenario} at {fps} fps");
         }
 
         void RenderOffscreen(GameDirector director)
@@ -155,6 +203,15 @@ namespace TurnBasedRpg.Game
                     yield return new WaitForSecondsRealtime(0.6f);
                     yield return WaitForPlayer(director, Catalog.Mage);
                     director.Hud.CommandMenu.Choose("Skills");
+                    yield return new WaitForSecondsRealtime(0.4f);
+                    break;
+                case "gameplay":
+                    yield return BattleAt(director, 3, 4);
+                    if (!director.AutoBattle)
+                    {
+                        director.ToggleAuto();
+                    }
+                    director.SpeedOverride = GameplaySpeed;
                     yield return new WaitForSecondsRealtime(0.4f);
                     break;
                 case "camp":
