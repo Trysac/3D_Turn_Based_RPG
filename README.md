@@ -4,6 +4,8 @@ A small 3D turn-based RPG made with Unity: lead a knight, a mage and a cleric th
 battles to the Cinder King, with speed-based turn order, skills with MP and cooldowns, items,
 status effects, an enemy AI, levels between battles and a saved campaign.
 
+![Gameplay](docs/media/gameplay.gif)
+
 ![Lyra's Fireball hits the Sunken Crypt's skeletons and wraith](docs/screenshots/battle.png)
 
 | | |
